@@ -1,0 +1,2 @@
+# zpgso-project
+Skolsky projekt
