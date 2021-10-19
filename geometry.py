@@ -73,7 +73,7 @@ class IndexedFace:
             points.append(transformed[0][0])
             points.append(transformed[1][0])
 
-        canvas.create_polygon(points, outline="#000000")
+        canvas.create_polygon(points, outline="#000000", fill="#FFFFFF")
 
 
 if __name__ == "__main__":

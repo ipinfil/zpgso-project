@@ -11,6 +11,7 @@ class Visualizer:
     DEFAULT_ROTATION_X = 180
     DEFAULT_TRANSLATION_X = WIDTH / 2
     DEFAULT_TRANSLATION_Y = HEIGHT / 2
+    DEFAULT_TRANSLATION_Z = 0
 
     verteces = []
     faces = []
@@ -32,6 +33,7 @@ class Visualizer:
         self.ROTATION_Z = 0
         self.TRANSLATION_X = self.DEFAULT_TRANSLATION_X / self.SCALE
         self.TRANSLATION_Y = self.DEFAULT_TRANSLATION_Y / self.SCALE
+        self.TRANSLATION_Z = 0
 
     def load_file(self, path: str):
         self.verteces = []
@@ -58,17 +60,18 @@ class Visualizer:
             [
                 [1, 0, 0, self.TRANSLATION_X],
                 [0, 1, 0, self.TRANSLATION_Y],
-                [0, 0, 1, 0],
+                [0, 0, 1, self.TRANSLATION_Z],
                 [0, 0, 0, 1],
             ]
         )
+        print(translation_matrix)
 
         scale_matrix = Matrix(
             [
                 [self.SCALE, 0, 0, 0],
                 [0, self.SCALE, 0, 0],
                 [0, 0, self.SCALE, 0],
-                [0, 0, 0, 0],
+                [0, 0, 0, 1],
             ]
         )
 
@@ -103,8 +106,7 @@ class Visualizer:
             ]
         )
 
-        transformation_matrix = scale_matrix * self.projection_matrix
-        transformation_matrix = transformation_matrix * translation_matrix
+        transformation_matrix = scale_matrix * translation_matrix
         transformation_matrix = transformation_matrix * rotation_x_matrix
         transformation_matrix = transformation_matrix * rotation_z_matrix
         transformation_matrix = transformation_matrix * rotation_y_matrix

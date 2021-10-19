@@ -57,6 +57,7 @@ class UserInterface:
         )
         self.rotation_z_input.grid(row=4, column=0)
 
+        # scale
         scale_label = tk.Label(controls_wrapper_frame, text="Škálovanie").grid(
             row=1, column=1
         )
@@ -67,6 +68,7 @@ class UserInterface:
         )
         self.scale_input.grid(row=2, column=1)
 
+        # translation
         translation_label = tk.Label(controls_wrapper_frame, text="Posun").grid(
             row=1, column=2
         )
@@ -82,16 +84,22 @@ class UserInterface:
             validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
         )
         self.translation_y_input.grid(row=3, column=2)
+        self.translation_z_input = tk.Entry(
+            controls_wrapper_frame,
+            validate="all",
+            validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
+        )
+        self.translation_z_input.grid(row=4, column=2)
 
         self._set_default_values()
 
-        load_button = tk.Button(
+        tk.Button(
             controls_wrapper_frame, text="Otvoriť", command=self._display_object
         ).grid(row=5, column=0)
-        load_button = tk.Button(
+        tk.Button(
             controls_wrapper_frame, text="Resetovať", command=self._reset_object
         ).grid(row=5, column=1)
-        draw_button = tk.Button(
+        tk.Button(
             controls_wrapper_frame, text="Prekresliť", command=self._redraw_object
         ).grid(row=5, column=2)
 
@@ -112,6 +120,7 @@ class UserInterface:
         self.visualizer.TRANSLATION_Y = (
             self.visualizer.DEFAULT_TRANSLATION_Y / self.visualizer.SCALE
         )
+        self.visualizer.TRANSLATION_Z = 0
 
         self._set_default_values()
 
@@ -136,6 +145,7 @@ class UserInterface:
             float(self.translation_y_input.get())
             + self.visualizer.DEFAULT_TRANSLATION_Y
         ) / self.visualizer.SCALE
+        self.visualizer.TRANSLATION_Z = float(self.translation_z_input.get())
 
         self.visualizer.display(self.canvas)
 
@@ -177,7 +187,8 @@ class UserInterface:
         self.translation_x_input.insert(0, "0")
         self.translation_y_input.delete(0, END)
         self.translation_y_input.insert(0, "0")
-
+        self.translation_z_input.delete(0, END)
+        self.translation_z_input.insert(0, "0")
 
 if __name__ == "__main__":
     ui = UserInterface()
