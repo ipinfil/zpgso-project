@@ -1,5 +1,6 @@
 import tkinter as tk
 
+
 class Matrix:
     def __init__(self, matrix: list) -> None:
         if not len(matrix):
@@ -48,6 +49,7 @@ class Matrix:
     def __getitem__(self, key):
         return self.matrix[key]
 
+
 class IndexedFace:
     verteces = None
     indeces = None
@@ -57,10 +59,10 @@ class IndexedFace:
         self.indeces = indeces
 
     def __str__(self) -> str:
-        return f'IndexedFace - {self.verteces}'
+        return f"IndexedFace - {self.verteces}"
 
     def __repr__(self) -> str:
-        return f'IndexedFace - {self.verteces}'
+        return f"IndexedFace - {self.verteces}"
 
     def display(self, canvas: tk.Canvas, transform: Matrix):
         points = []
@@ -71,11 +73,11 @@ class IndexedFace:
             points.append(transformed[0][0])
             points.append(transformed[1][0])
 
-        canvas.create_polygon(points, outline='#000000')
+        canvas.create_polygon(points, outline="#000000")
+
 
 if __name__ == "__main__":
-    m = Matrix([[1, 0],
-                [0, 1]])
+    m = Matrix([[1, 0], [0, 1]])
 
     # print(m * 5)
 
@@ -84,7 +86,6 @@ if __name__ == "__main__":
 
     # print(m * m2)
 
-    m3 = Matrix([[2, 7],
-                [9, 14]])
+    m3 = Matrix([[2, 7], [9, 14]])
 
     print(m * m3)
