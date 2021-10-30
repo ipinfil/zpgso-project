@@ -138,9 +138,9 @@ class UserInterface:
         self.color_b_input.grid(row=8, column=1)
 
         # constants
-        constants_label = tk.Label(controls_wrapper_frame, text="Konštanty Ka, Ks, Kd, h").grid(
-            row=5, column=0
-        )
+        constants_label = tk.Label(
+            controls_wrapper_frame, text="Konštanty Ka, Ks, Kd, h"
+        ).grid(row=5, column=0)
         self.Ka_input = tk.Entry(
             controls_wrapper_frame,
             validate="all",
@@ -224,11 +224,21 @@ class UserInterface:
         ) / self.visualizer.SCALE
         self.visualizer.TRANSLATION_Z = float(self.translation_z_input.get())
 
-        self.visualizer.LIGHT_X = float(self.light_x_input.get()) + self.visualizer.DEFAULT_LIGHT_X
-        self.visualizer.LIGHT_Y = float(self.light_y_input.get()) + self.visualizer.DEFAULT_LIGHT_Y
-        self.visualizer.LIGHT_Z = float(self.light_z_input.get()) + self.visualizer.DEFAULT_LIGHT_Z
+        self.visualizer.LIGHT_X = (
+            float(self.light_x_input.get()) + self.visualizer.DEFAULT_LIGHT_X
+        )
+        self.visualizer.LIGHT_Y = (
+            float(self.light_y_input.get()) + self.visualizer.DEFAULT_LIGHT_Y
+        )
+        self.visualizer.LIGHT_Z = (
+            float(self.light_z_input.get()) + self.visualizer.DEFAULT_LIGHT_Z
+        )
 
-        self.visualizer.COLOR = (float(self.color_r_input.get()), float(self.color_g_input.get()), float(self.color_b_input.get()))
+        self.visualizer.COLOR = (
+            float(self.color_r_input.get()),
+            float(self.color_g_input.get()),
+            float(self.color_b_input.get()),
+        )
 
         self.visualizer.Ks = float(self.Ks_input.get())
         self.visualizer.Ka = float(self.Ka_input.get())
@@ -300,6 +310,7 @@ class UserInterface:
         self.Kd_input.insert(0, "1")
         self.h_input.delete(0, END)
         self.h_input.insert(0, "1")
+
 
 if __name__ == "__main__":
     ui = UserInterface()

@@ -2,6 +2,7 @@ import tkinter as tk
 from math import sqrt
 from copy import deepcopy
 
+
 class Matrix:
     def __init__(self, matrix: list) -> None:
         if not len(matrix):
@@ -28,7 +29,7 @@ class Matrix:
 
     def __add__(self, other):
         if self.shape() != other.shape():
-            return ValueError('Matrices do not share the same shape.')
+            return ValueError("Matrices do not share the same shape.")
 
         matrix = []
         for row in range(self.y_size):
@@ -40,7 +41,7 @@ class Matrix:
 
     def __sub__(self, other):
         if self.shape() != other.shape():
-            return ValueError('Matrices do not share the same shape.')
+            return ValueError("Matrices do not share the same shape.")
 
         matrix = []
         for row in range(self.y_size):
@@ -139,18 +140,18 @@ class IndexedFace:
             points.append(vertex[1][0])
 
         color = (int(x * luminosity) for x in self.color)
-        hexcode = '#'
+        hexcode = "#"
 
         for value in color:
             hexvalue = hex(value)
 
-            if hexvalue[0] == '-':
+            if hexvalue[0] == "-":
                 hexvalue = hexvalue[3:]
             else:
                 hexvalue = hexvalue[2:]
 
             if len(hexvalue) == 1:
-                hexvalue = '0' + hexvalue
+                hexvalue = "0" + hexvalue
 
             hexcode += hexvalue
 
@@ -173,6 +174,7 @@ class IndexedFace:
         Cz = v1[0][0] * v2[1][0] - v1[1][0] * v2[0][0]
 
         return Matrix([[Cx], [Cy], [Cz]])
+
 
 if __name__ == "__main__":
     # m = Matrix([[1, 0], [0, 1]])

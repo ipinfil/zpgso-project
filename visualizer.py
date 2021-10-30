@@ -50,7 +50,11 @@ class Visualizer:
         self.TRANSLATION_Y = self.DEFAULT_TRANSLATION_Y / self.SCALE
         self.TRANSLATION_Z = 0
 
-        self.LIGHT_X, self.LIGHT_Y, self.LIGHT_Z = self.DEFAULT_LIGHT_X, self.DEFAULT_LIGHT_Y, self.DEFAULT_LIGHT_Z
+        self.LIGHT_X, self.LIGHT_Y, self.LIGHT_Z = (
+            self.DEFAULT_LIGHT_X,
+            self.DEFAULT_LIGHT_Y,
+            self.DEFAULT_LIGHT_Z,
+        )
         self.light = Light(self.LIGHT_X, self.LIGHT_Y, self.LIGHT_Z)
         self.camera = Camera(self.CAMERA_X, self.CAMERA_Y, self.CAMERA_Z)
 
@@ -82,7 +86,10 @@ class Visualizer:
             face.set_transformation_matrix(transformation_matrix)
             face_center_of_gravity = face.center_of_gravity()
             # L, V vectors
-            L, V = face_center_of_gravity - self.light.position, face_center_of_gravity - self.camera.position
+            L, V = (
+                face_center_of_gravity - self.light.position,
+                face_center_of_gravity - self.camera.position,
+            )
 
             # normal
             N = face.get_normal()
@@ -184,6 +191,7 @@ class Visualizer:
 
         return IndexedFace(verteces, indeces)
 
+
 class SpecialPoint:
     def __init__(self, x, y, z) -> None:
         self.position = Matrix(
@@ -195,8 +203,10 @@ class SpecialPoint:
             ]
         )
 
+
 class Light(SpecialPoint):
     pass
+
 
 class Camera(SpecialPoint):
     pass
