@@ -155,7 +155,7 @@ class IndexedFace:
 
             hexcode += hexvalue
 
-        canvas.create_polygon(points, outline="#000000", fill=hexcode)
+        canvas.create_polygon(points, fill=hexcode)
 
     def center_of_gravity(self):
         matrix = []
