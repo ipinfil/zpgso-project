@@ -91,20 +91,97 @@ class UserInterface:
         )
         self.translation_z_input.grid(row=4, column=2)
 
+        # light
+        light_label = tk.Label(controls_wrapper_frame, text="Svetlo").grid(
+            row=5, column=2
+        )
+        self.light_x_input = tk.Entry(
+            controls_wrapper_frame,
+            validate="all",
+            validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
+        )
+        self.light_x_input.grid(row=6, column=2)
+        self.light_y_input = tk.Entry(
+            controls_wrapper_frame,
+            validate="all",
+            validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
+        )
+        self.light_y_input.grid(row=7, column=2)
+        self.light_z_input = tk.Entry(
+            controls_wrapper_frame,
+            validate="all",
+            validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
+        )
+        self.light_z_input.grid(row=8, column=2)
+
+        # color
+        color_label = tk.Label(controls_wrapper_frame, text="Farba RGB").grid(
+            row=5, column=1
+        )
+        self.color_r_input = tk.Entry(
+            controls_wrapper_frame,
+            validate="all",
+            validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
+        )
+        self.color_r_input.grid(row=6, column=1)
+        self.color_g_input = tk.Entry(
+            controls_wrapper_frame,
+            validate="all",
+            validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
+        )
+        self.color_g_input.grid(row=7, column=1)
+        self.color_b_input = tk.Entry(
+            controls_wrapper_frame,
+            validate="all",
+            validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
+        )
+        self.color_b_input.grid(row=8, column=1)
+
+        # constants
+        constants_label = tk.Label(controls_wrapper_frame, text="Konštanty Ka, Ks, Kd, h").grid(
+            row=5, column=0
+        )
+        self.Ka_input = tk.Entry(
+            controls_wrapper_frame,
+            validate="all",
+            validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
+        )
+        self.Ka_input.grid(row=6, column=0)
+        self.Ks_input = tk.Entry(
+            controls_wrapper_frame,
+            validate="all",
+            validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
+        )
+        self.Ks_input.grid(row=7, column=0)
+        self.Kd_input = tk.Entry(
+            controls_wrapper_frame,
+            validate="all",
+            validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
+        )
+        self.Kd_input.grid(row=8, column=0)
+        self.h_input = tk.Entry(
+            controls_wrapper_frame,
+            validate="all",
+            validatecommand=(vcmd, "%d", "%i", "%P", "%s", "%S", "%v", "%V", "%W"),
+        )
+        self.h_input.grid(row=9, column=0)
+
         self._set_default_values()
 
         tk.Button(
             controls_wrapper_frame, text="Otvoriť", command=self._display_object
-        ).grid(row=5, column=0)
+        ).grid(row=10, column=0)
         tk.Button(
             controls_wrapper_frame, text="Resetovať", command=self._reset_object
-        ).grid(row=5, column=1)
+        ).grid(row=10, column=1)
         tk.Button(
             controls_wrapper_frame, text="Prekresliť", command=self._redraw_object
-        ).grid(row=5, column=2)
+        ).grid(row=10, column=2)
 
     def _display_object(self, event=None):
-        self.visualizer.load_file(filedialog.askopenfilename())
+        # Odkopirovat na inych systemoch ako na MacOS Monterey.
+        # self.visualizer.load_file(filedialog.askopenfilename()) MacOS monterey Python bug!
+        self.visualizer.load_file("/Users/layo/Downloads/obj_files/bunny.obj")
         self.visualizer.display(self.canvas)
 
     def _reset_object(self, event=None):
@@ -146,6 +223,17 @@ class UserInterface:
             + self.visualizer.DEFAULT_TRANSLATION_Y
         ) / self.visualizer.SCALE
         self.visualizer.TRANSLATION_Z = float(self.translation_z_input.get())
+
+        self.visualizer.LIGHT_X = float(self.light_x_input.get()) + self.visualizer.DEFAULT_LIGHT_X
+        self.visualizer.LIGHT_Y = float(self.light_y_input.get()) + self.visualizer.DEFAULT_LIGHT_Y
+        self.visualizer.LIGHT_Z = float(self.light_z_input.get()) + self.visualizer.DEFAULT_LIGHT_Z
+
+        self.visualizer.COLOR = (float(self.color_r_input.get()), float(self.color_g_input.get()), float(self.color_b_input.get()))
+
+        self.visualizer.Ks = float(self.Ks_input.get())
+        self.visualizer.Ka = float(self.Ka_input.get())
+        self.visualizer.Kd = float(self.Kd_input.get())
+        self.visualizer.SHININESS = float(self.h_input.get())
 
         self.visualizer.display(self.canvas)
 
@@ -189,6 +277,29 @@ class UserInterface:
         self.translation_y_input.insert(0, "0")
         self.translation_z_input.delete(0, END)
         self.translation_z_input.insert(0, "0")
+
+        self.light_x_input.delete(0, END)
+        self.light_x_input.insert(0, "0")
+        self.light_y_input.delete(0, END)
+        self.light_y_input.insert(0, "0")
+        self.light_z_input.delete(0, END)
+        self.light_z_input.insert(0, "0")
+
+        self.color_r_input.delete(0, END)
+        self.color_r_input.insert(0, "99")
+        self.color_g_input.delete(0, END)
+        self.color_g_input.insert(0, "120")
+        self.color_b_input.delete(0, END)
+        self.color_b_input.insert(0, "220")
+
+        self.Ka_input.delete(0, END)
+        self.Ka_input.insert(0, "0.1")
+        self.Ks_input.delete(0, END)
+        self.Ks_input.insert(0, "0.5")
+        self.Kd_input.delete(0, END)
+        self.Kd_input.insert(0, "1")
+        self.h_input.delete(0, END)
+        self.h_input.insert(0, "1")
 
 if __name__ == "__main__":
     ui = UserInterface()

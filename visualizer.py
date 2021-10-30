@@ -11,7 +11,20 @@ class Visualizer:
     DEFAULT_ROTATION_X = 180
     DEFAULT_TRANSLATION_X = WIDTH / 2
     DEFAULT_TRANSLATION_Y = HEIGHT / 2
-    DEFAULT_TRANSLATION_Z = 0
+    DEFAULT_TRANSLATION_Z = -150
+
+    COLOR = (99, 120, 220)
+
+    DEFAULT_LIGHT_X = WIDTH / 2
+    DEFAULT_LIGHT_Y = HEIGHT
+    DEFAULT_LIGHT_Z = 0
+
+    CAMERA_X = WIDTH / 2
+    CAMERA_Y = HEIGHT / 2
+    CAMERA_Z = -150
+
+    SHININESS = 1
+    Ka, Ks, Kd = 0.1, 0.5, 1
 
     verteces = []
     faces = []
@@ -28,12 +41,18 @@ class Visualizer:
 
     def __init__(self) -> None:
         self.SCALE = self.DEFAULT_SCALE
+
         self.ROTATION_X = self.DEFAULT_ROTATION_X
         self.ROTATION_Y = 0
         self.ROTATION_Z = 0
+
         self.TRANSLATION_X = self.DEFAULT_TRANSLATION_X / self.SCALE
         self.TRANSLATION_Y = self.DEFAULT_TRANSLATION_Y / self.SCALE
         self.TRANSLATION_Z = 0
+
+        self.LIGHT_X, self.LIGHT_Y, self.LIGHT_Z = self.DEFAULT_LIGHT_X, self.DEFAULT_LIGHT_Y, self.DEFAULT_LIGHT_Z
+        self.light = Light(self.LIGHT_X, self.LIGHT_Y, self.LIGHT_Z)
+        self.camera = Camera(self.CAMERA_X, self.CAMERA_Y, self.CAMERA_Z)
 
     def load_file(self, path: str):
         self.verteces = []
@@ -54,7 +73,40 @@ class Visualizer:
 
     def display(self, canvas: tk.Canvas):
         canvas.delete("all")
+        self.light = Light(self.LIGHT_X, self.LIGHT_Y, self.LIGHT_Z)
+        transformation_matrix = self._transform()
 
+        for face in self.faces:
+            face.reset()
+            face.set_color(self.COLOR)
+            face.set_transformation_matrix(transformation_matrix)
+            face_center_of_gravity = face.center_of_gravity()
+            # L, V vectors
+            L, V = face_center_of_gravity - self.light.position, face_center_of_gravity - self.camera.position
+
+            # normal
+            N = face.get_normal()
+
+            # backface culling - not very functional
+            if V * N <= 0:
+                continue
+
+            light_camera_sum = L + V
+            H = light_camera_sum / abs(light_camera_sum.vector_length())
+            Is = (H * N) ** self.SHININESS
+            Id = N * L
+
+            I = self.Ka + (self.Kd * Id) + (self.Ks * Is)
+            luminosity = I / 10000000
+
+            if luminosity > 1:
+                luminosity = 1
+            if luminosity < self.Ka:
+                luminosity = self.Ka
+
+            face.display(canvas, transformation_matrix, luminosity)
+
+    def _transform(self) -> Matrix:
         # translate and scale points so that they display correctly on canvas
         translation_matrix = Matrix(
             [
@@ -64,7 +116,6 @@ class Visualizer:
                 [0, 0, 0, 1],
             ]
         )
-        print(translation_matrix)
 
         scale_matrix = Matrix(
             [
@@ -111,8 +162,7 @@ class Visualizer:
         transformation_matrix = transformation_matrix * rotation_z_matrix
         transformation_matrix = transformation_matrix * rotation_y_matrix
 
-        for face in self.faces:
-            face.display(canvas, transformation_matrix)
+        return transformation_matrix
 
     def _create_vertex(self, line: list) -> Matrix:
         return Matrix(
@@ -133,3 +183,20 @@ class Visualizer:
         indeces = [int(line[1]) - 1, int(line[2]) - 1, int(line[3]) - 1]
 
         return IndexedFace(verteces, indeces)
+
+class SpecialPoint:
+    def __init__(self, x, y, z) -> None:
+        self.position = Matrix(
+            [
+                [x],
+                [y],
+                [z],
+                [1],
+            ]
+        )
+
+class Light(SpecialPoint):
+    pass
+
+class Camera(SpecialPoint):
+    pass
