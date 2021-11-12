@@ -18,6 +18,12 @@ class Matrix:
 
         return sqrt(sum([sum(x) ** 2 for x in self.matrix[:-1]]))
 
+    def normalize(self):
+        matrix = deepcopy(self.matrix)
+        length = self.vector_length()
+
+        return Matrix([list(map(lambda y: y / length, x)) for x in matrix])
+
     def shape(self):
         return (self.x_size, self.y_size)
 
@@ -166,8 +172,8 @@ class IndexedFace:
         return Matrix(matrix)
 
     def get_normal(self):
-        v1 = self.verteces[1] - self.verteces[0]
-        v2 = self.verteces[2] - self.verteces[1]
+        v1 = self.verteces[0] - self.verteces[1]
+        v2 = self.verteces[1] - self.verteces[2]
 
         Cx = v1[1][0] * v2[2][0] - v1[2][0] * v2[1][0]
         Cy = v1[2][0] * v2[0][0] - v1[0][0] * v2[2][0]

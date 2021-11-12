@@ -180,8 +180,8 @@ class UserInterface:
 
     def _display_object(self, event=None):
         # Odkopirovat na inych systemoch ako na MacOS Monterey.
-        self.visualizer.load_file(filedialog.askopenfilename()) # MacOS monterey Python bug!
-        # self.visualizer.load_file("/Users/layo/Downloads/obj_files/bunny.obj")
+        # self.visualizer.load_file(filedialog.askopenfilename()) # MacOS monterey Python bug!
+        self.visualizer.load_file("/Users/layo/Downloads/obj_files/bunny.obj")
         self.visualizer.display(self.canvas)
 
     def _reset_object(self, event=None):

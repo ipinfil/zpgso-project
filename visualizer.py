@@ -91,15 +91,18 @@ class Visualizer:
                 face_center_of_gravity - self.camera.position,
             )
 
+            L, V = L.normalize(), V.normalize()
+
             # normal
-            N = face.get_normal()
+            N = face.get_normal().normalize()
 
             # backface culling - not very functional
             if V * N <= 0:
                 continue
 
             light_camera_sum = L + V
-            H = light_camera_sum / abs(light_camera_sum.vector_length())
+            H = light_camera_sum.normalize()
+
             Is = (H * N) ** self.SHININESS
             Id = N * L
 
