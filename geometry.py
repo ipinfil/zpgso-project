@@ -172,8 +172,8 @@ class IndexedFace:
         return Matrix(matrix)
 
     def get_normal(self):
-        v1 = self.verteces[0] - self.verteces[1]
-        v2 = self.verteces[1] - self.verteces[2]
+        v1 = self.verteces[1] - self.verteces[0]
+        v2 = self.verteces[2] - self.verteces[0]
 
         Cx = v1[1][0] * v2[2][0] - v1[2][0] * v2[1][0]
         Cy = v1[2][0] * v2[0][0] - v1[0][0] * v2[2][0]

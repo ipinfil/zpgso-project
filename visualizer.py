@@ -87,8 +87,8 @@ class Visualizer:
             face_center_of_gravity = face.center_of_gravity()
             # L, V vectors
             L, V = (
-                face_center_of_gravity - self.light.position,
-                face_center_of_gravity - self.camera.position,
+                face.verteces[0] - self.light.position,
+                face.verteces[0] - self.camera.position,
             )
 
             L, V = L.normalize(), V.normalize()
