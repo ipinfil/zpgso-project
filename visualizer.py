@@ -24,7 +24,7 @@ class Visualizer:
     CAMERA_Z = -150
 
     SHININESS = 1
-    Ka, Ks, Kd = 0.1, 0.5, 1
+    Ka, Ks, Kd = 0.1, 0.1, 0.1
 
     verteces = []
     faces = []
@@ -107,7 +107,7 @@ class Visualizer:
             Id = N * L
 
             I = self.Ka + (self.Kd * Id) + (self.Ks * Is)
-            luminosity = I / 10000000
+            luminosity = I
 
             if luminosity > 1:
                 luminosity = 1
